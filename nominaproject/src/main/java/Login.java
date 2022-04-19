@@ -1,3 +1,5 @@
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,7 +11,6 @@ import java.util.Scanner;
  * @author María Luciano
  */
 public class Login extends javax.swing.JFrame {
-
     /**
      * Creates new form Login
      */
@@ -124,6 +125,9 @@ public class Login extends javax.swing.JFrame {
             while((linea=fr.readLine())!=null){
                 if(linea.indexOf(nombreUsuario)!=-1 && linea.indexOf(passwordUsuario)!=-1){
                     System.out.println("true ");
+                    this.setVisible(false);
+                    FramePrincipal frame = new FramePrincipal();
+                    frame.setVisible(true);
                 }
                 else{
                     System.out.println("no se encontro el usuario ");
@@ -178,4 +182,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField nombre;
     private javax.swing.JPasswordField password;
     // End of variables declaration//GEN-END:variables
+
 }

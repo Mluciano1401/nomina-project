@@ -27,20 +27,22 @@ public class Register extends javax.swing.JPanel {
         id_usuario.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                int id;
+                Integer id;
                 boolean encontrado=false;
                 id=Integer.parseInt(id_usuario.getText());
                 Scanner s;
                 try{
                  File f = new File("usuario.txt");
                  s = new Scanner(f);
+                 System.out.print(s);
                  if(!f.exists()){
-                     f.createNewFile();
+                    f.createNewFile();
                  }else{
                      while (s.hasNextLine() && !encontrado){
                          String linea = s.nextLine();
                          Scanner sl = new Scanner(linea);
                          sl.useDelimiter("\\s*;\\s*");
+                         System.out.print("hola");
                          try{
                              if(id==Integer.parseInt(sl.next())){
                                  nombre.setText(sl.next());
@@ -55,6 +57,7 @@ public class Register extends javax.swing.JPanel {
                                  +";"+apellido.getText()+";"+email.getText()+";"+loginname.getText()
                                  +";"+nivelAcceso.getSelectedIndex()+";"+password.getText());
                                  Status.setText("Modificando Usuario");
+                                 JButtonGuardar.setEnabled(true);
                              }
                              else{
                                  nombre.setText("");
@@ -66,6 +69,7 @@ public class Register extends javax.swing.JPanel {
                                  encontrado=false;
                                  editar = false;
                                  Status.setText("Creando Usuario");
+                                 JButtonGuardar.setEnabled(true);
                              }
                          }
                          catch(Exception error){
@@ -111,10 +115,11 @@ public class Register extends javax.swing.JPanel {
         email = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         apellido = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        JButtonGuardar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         id_usuario = new javax.swing.JTextField();
-        Status = new javax.swing.JLabel();
+        Status = new javax.swing.JTextField();
+        jButtonLimpiar = new javax.swing.JButton();
 
         password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,11 +152,11 @@ public class Register extends javax.swing.JPanel {
 
         jLabel6.setText("contraseña");
 
-        jButton1.setText("Guardar");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        JButtonGuardar.setText("Guardar");
+        JButtonGuardar.setToolTipText("");
+        JButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                JButtonGuardarActionPerformed(evt);
             }
         });
 
@@ -163,17 +168,29 @@ public class Register extends javax.swing.JPanel {
             }
         });
 
-        Status.setText("Usuario");
+        Status.setText("usuario");
+        Status.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusActionPerformed(evt);
+            }
+        });
+
+        jButtonLimpiar.setText("limpiar");
+        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(180, 180, 180)
+                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -183,7 +200,7 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -193,18 +210,18 @@ public class Register extends javax.swing.JPanel {
                         .addComponent(password, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(146, 146, 146))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(35, 35, 35))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLimpiar)
+                    .addComponent(JButtonGuardar))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(Status, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,11 +246,16 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(loginname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(loginname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonLimpiar)
+                        .addGap(29, 29, 29)))
+                .addComponent(JButtonGuardar)
                 .addGap(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -242,7 +264,7 @@ public class Register extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void JButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonGuardarActionPerformed
         ManejadorArchivos MA = new ManejadorArchivos();
         String Id = id_usuario.getText();
         String nombreUsuario = nombre.getText();
@@ -252,7 +274,7 @@ public class Register extends javax.swing.JPanel {
         int nivelUsuario = nivelAcceso.getSelectedIndex();
         String passwordUsuario = password.getText();
         String data  = Id + ";"+ nombreUsuario + ";"+ apellidoUsuario+ ";"+ emailUsuario+
-                ";"+ loginUsuario+ ";"+ nivelUsuario+ ";"+ passwordUsuario;
+                ";"+ loginUsuario+ ";"+ nivelUsuario+ ";"+ passwordUsuario+"\n";
         try{
             if(editar==false){
                 MA.GuardarDatos(data,"usuario.txt");
@@ -264,7 +286,7 @@ public class Register extends javax.swing.JPanel {
         catch(IOException e){
             System.out.println("Error E/S: "+e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_JButtonGuardarActionPerformed
 
     private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
         // TODO add your handling code here:
@@ -278,13 +300,29 @@ public class Register extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_usuarioComponentAdded
 
+    private void StatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusActionPerformed
+
+    private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
+        id_usuario.setText("");
+        nombre.setText("");
+        apellido.setText("");
+        email.setText("");
+        loginname.setText("");
+        nivelAcceso.setSelectedIndex(0);
+        password.setText("");
+        Status.setText("Usuario");
+    }//GEN-LAST:event_jButtonLimpiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Status;
+    private javax.swing.JButton JButtonGuardar;
+    private javax.swing.JTextField Status;
     private javax.swing.JTextField apellido;
     private javax.swing.JTextField email;
     private javax.swing.JTextField id_usuario;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonLimpiar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

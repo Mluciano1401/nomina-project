@@ -1,1 +1,2 @@
-01;juan;garcia;juang62@gmail.com;;0;12345678
+01;juan;cepedez;juancito64@gmail.com;juancito64;0;12345678
+02;luis;cepedez;lc@gmail.com;lc09;1;12345678

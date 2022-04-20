@@ -76,8 +76,7 @@ public class Register extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
                             error.printStackTrace();
                          }
-                     }
-
+                    }
                  }
                  s.close();
                 }

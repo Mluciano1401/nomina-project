@@ -1,5 +1,14 @@
 package Mantenimientos;
 
+import ManejadordeArchivos.ManejadorArchivos;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -10,12 +19,66 @@ package Mantenimientos;
  * @author María Luciano
  */
 public class DepartMant extends javax.swing.JPanel {
-
+    boolean editar = false;
+    public static String antigualinea="";
     /**
      * Creates new form NewJPanel
      */
     public DepartMant() {
         initComponents();
+        id_dep.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Integer id;
+                boolean encontrado=false;
+                id=Integer.parseInt(id_dep.getText());
+                Scanner s;
+                try{
+                 File f = new File("usuario.txt");
+                 s = new Scanner(f);
+                 System.out.print(s);
+                 if(!f.exists()){
+                    f.createNewFile();
+                 }else{
+                     while (s.hasNextLine() && !encontrado){
+                         String linea = s.nextLine();
+                         Scanner sl = new Scanner(linea);
+                         sl.useDelimiter("\\s*;\\s*");
+                         System.out.print("hola");
+                         try{
+                             if(id==Integer.parseInt(sl.next())){
+                                 nombre.setText(sl.next());
+                                 encontrado=true;
+                                 editar= true;
+                                 antigualinea=(id_dep.getText() +";"+ nombre.getText());
+                                 Status.setText("Modificando Usuario");
+                                 jButton1.setEnabled(true);
+                             }
+                             else{
+                                 nombre.setText("");
+                                 editar = false;
+                                 Status.setText("Creando Usuario");
+                                 jButton1.setEnabled(true);
+                             }
+                         }
+                         catch(Exception error){
+                            JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                            error.printStackTrace();
+                         }
+                    }
+                 }
+                 s.close();
+                }
+                catch(FileNotFoundException error){
+                        JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                        error.printStackTrace();
+                } 
+                catch (IOException ex) {
+                   ex.printStackTrace();
+                }
+            }
+            
+        });
     }
 
     /**
@@ -31,8 +94,9 @@ public class DepartMant extends javax.swing.JPanel {
         Status = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        id_usuario = new javax.swing.JTextField();
+        id_dep = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButtonLimpiar1 = new javax.swing.JButton();
 
         jLabel2.setText("nombre ");
 
@@ -51,9 +115,9 @@ public class DepartMant extends javax.swing.JPanel {
             }
         });
 
-        id_usuario.addContainerListener(new java.awt.event.ContainerAdapter() {
+        id_dep.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
-                id_usuarioComponentAdded(evt);
+                id_depComponentAdded(evt);
             }
         });
 
@@ -62,6 +126,13 @@ public class DepartMant extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButtonLimpiar1.setText("limpiar");
+        jButtonLimpiar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiar1ActionPerformed(evt);
             }
         });
 
@@ -74,19 +145,21 @@ public class DepartMant extends javax.swing.JPanel {
                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(id_dep, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,10 +174,12 @@ public class DepartMant extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(id_dep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(124, 124, 124)
+                .addGap(86, 86, 86)
+                .addComponent(jButtonLimpiar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addGap(22, 22, 22))
         );
@@ -118,19 +193,40 @@ public class DepartMant extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_nombreActionPerformed
 
-    private void id_usuarioComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_id_usuarioComponentAdded
+    private void id_depComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_id_depComponentAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_id_usuarioComponentAdded
+    }//GEN-LAST:event_id_depComponentAdded
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        ManejadorArchivos MA = new ManejadorArchivos();
+        String Id = id_dep.getText();
+        String nombred = nombre.getText();
+        String data  = Id + ";"+ nombred+"\n";
+        try{
+            if(editar==false){
+                MA.GuardarDatos(data,"usuario.txt");
+            }
+            else{
+                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+            }
+        }
+        catch(IOException e){
+            System.out.println("Error E/S: "+e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiar1ActionPerformed
+        id_dep.setText("");
+        nombre.setText("");
+        Status.setText("Puesto");
+    }//GEN-LAST:event_jButtonLimpiar1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Status;
-    private javax.swing.JTextField id_usuario;
+    private javax.swing.JTextField id_dep;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonLimpiar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nombre;

@@ -1,5 +1,14 @@
 package Mantenimientos;
 
+import ManejadordeArchivos.ManejadorArchivos;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -10,12 +19,89 @@ package Mantenimientos;
  * @author María Luciano
  */
 public class EmpleadoMant extends javax.swing.JPanel {
-
+    boolean editar = false;    
+    public static String antigualinea="";
     /**
      * Creates new form EmpleadoMant
      */
     public EmpleadoMant() {
         initComponents();
+        id_empleado.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Integer cod;
+                boolean encontrado=false;
+                cod=Integer.parseInt(id_empleado.getText());
+                Scanner s;
+                try{
+                    File f = new File("empleado.txt");
+                    s = new Scanner(f);
+                    System.out.print(s);
+                    if(!f.exists()){
+                        f.createNewFile();
+                    }
+                    else{
+                         while (s.hasNextLine() && !encontrado){
+                         String linea = s.nextLine();
+                         Scanner sl = new Scanner(linea);
+                         sl.useDelimiter("\\s*;\\s*");
+                         System.out.print("hola");
+                         try{
+                             if(cod==Integer.parseInt(sl.next())){
+                                 nombre.setText(sl.next());
+                                 apellidop.setText(sl.next());
+                                 apellidom.setText(sl.next());
+                                 direccion.setText(sl.next());
+                                 sexo.setSelectedIndex(sl.nextByte());                                 
+                                 iddepartamento.setText(sl.next());
+                                 idpuesto.setText(sl.next());
+                                 coop.setSelectedIndex(sl.nextByte());
+                                 sueldo.setText(sl.next());
+                                 encontrado=true;
+                                 editar= true;
+                                 antigualinea=(id_empleado.getText() +";"+ nombre.getText()
+                                 +";"+apellidop.getText()+";"+apellidom.getText()+";"+direccion.getText()+";"+
+                                 ";"+sexo.getSelectedIndex()+iddepartamento.getText()
+                                 +idpuesto.getText()
+                                 +";"+coop.getSelectedIndex()+";"+sueldo.getText());
+                                 Status.setText("Modificando Empleado");
+                                 jButtonGuardar.setEnabled(true);
+                             }
+                             else{
+                                 nombre.setText("");
+                                 apellidop.setText("");
+                                 apellidom.setText("");
+                                 direccion.setText("");
+                                 sexo.setSelectedIndex(0);
+                                 iddepartamento.setText("");
+                                 idpuesto.setText("");
+                                 coop.setSelectedIndex(0);
+                                 sueldo.setText("");
+                                 encontrado=false;
+                                 editar = false;
+                                 Status.setText("Creando Empleado");
+                                 jButtonGuardar.setEnabled(true);
+                             }
+                         }
+                         catch(Exception error){
+                            JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                            error.printStackTrace();
+                         }
+                    }
+                 }
+                 s.close();
+                }
+                catch(FileNotFoundException error){
+                        JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                        error.printStackTrace();
+                }
+                catch(Exception error){
+                    error.printStackTrace();
+                }
+                
+            }
+        
+        });
     }
 
     /**
@@ -29,26 +115,27 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel4 = new javax.swing.JLabel();
         Status = new javax.swing.JLabel();
-        loginname = new javax.swing.JTextField();
+        iddepartamento = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        nivelAcceso = new javax.swing.JComboBox<>();
-        email = new javax.swing.JTextField();
-        apellido = new javax.swing.JTextField();
+        sexo = new javax.swing.JComboBox<>();
+        direccion = new javax.swing.JTextField();
+        apellidop = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        id_usuario = new javax.swing.JTextField();
-        apellido1 = new javax.swing.JTextField();
+        id_empleado = new javax.swing.JTextField();
+        apellidom = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        loginname1 = new javax.swing.JTextField();
+        idpuesto = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        nivelAcceso1 = new javax.swing.JComboBox<>();
-        loginname2 = new javax.swing.JTextField();
+        coop = new javax.swing.JComboBox<>();
+        sueldo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jButtonLimpiar = new javax.swing.JButton();
 
         jLabel4.setText("Sexo");
 
@@ -67,26 +154,26 @@ public class EmpleadoMant extends javax.swing.JPanel {
             }
         });
 
-        nivelAcceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
-        nivelAcceso.addActionListener(new java.awt.event.ActionListener() {
+        sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
+        sexo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nivelAccesoActionPerformed(evt);
+                sexoActionPerformed(evt);
             }
         });
 
-        email.addActionListener(new java.awt.event.ActionListener() {
+        direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailActionPerformed(evt);
+                direccionActionPerformed(evt);
             }
         });
 
         jLabel2.setText("nombre ");
 
-        jButton1.setText("Guardar");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.setToolTipText("");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonGuardarActionPerformed(evt);
             }
         });
 
@@ -96,17 +183,17 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel7.setText("Id departamento");
 
-        id_usuario.addContainerListener(new java.awt.event.ContainerAdapter() {
+        id_empleado.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
-                id_usuarioComponentAdded(evt);
+                id_empleadoComponentAdded(evt);
             }
         });
 
         jLabel6.setText("apellido materno");
 
-        loginname1.addActionListener(new java.awt.event.ActionListener() {
+        idpuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginname1ActionPerformed(evt);
+                idpuestoActionPerformed(evt);
             }
         });
 
@@ -114,20 +201,27 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel10.setText("Cooperativa");
 
-        nivelAcceso1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "si", "no" }));
-        nivelAcceso1.addActionListener(new java.awt.event.ActionListener() {
+        coop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "si", "no" }));
+        coop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nivelAcceso1ActionPerformed(evt);
+                coopActionPerformed(evt);
             }
         });
 
-        loginname2.addActionListener(new java.awt.event.ActionListener() {
+        sueldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginname2ActionPerformed(evt);
+                sueldoActionPerformed(evt);
             }
         });
 
         jLabel11.setText("Sueldo");
+
+        jButtonLimpiar.setText("limpiar");
+        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -140,35 +234,34 @@ public class EmpleadoMant extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(loginname2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nivelAcceso1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginname1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(loginname)
-                                .addComponent(email)
-                                .addComponent(apellido)
-                                .addComponent(nombre)
-                                .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(apellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(153, 153, 153))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(29, 29, 29))))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(idpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(iddepartamento)
+                        .addComponent(direccion)
+                        .addComponent(apellidop)
+                        .addComponent(nombre)
+                        .addComponent(id_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(apellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLimpiar)
+                    .addComponent(jButtonGuardar))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,46 +271,49 @@ public class EmpleadoMant extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(id_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apellidop, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(loginname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(iddepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(loginname1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nivelAcceso1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(loginname2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLimpiar))
+                .addContainerGap(77, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonGuardar)
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -229,41 +325,82 @@ public class EmpleadoMant extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_nombreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+      ManejadorArchivos MA = new ManejadorArchivos();
+      String Id = id_empleado.getText();
+      String nombreEmpleado = nombre.getText();
+      String apellidoP = apellidop.getText();
+      String apellidoM = apellidom.getText();
+      String direc = direccion.getText();
+      int sex = sexo.getSelectedIndex();
+      String iddep = iddepartamento.getText();
+      String idp = idpuesto.getText();
+      int coope = coop.getSelectedIndex();
+      String sueldobruto = sueldo.getText();
+      String data  = Id + ";"+ nombreEmpleado + ";"+apellidoP+ ";"+ apellidoM+
+                ";"+  direc+ ";"+ sex+ ";"+ iddep+";"+  idp+ ";"+ coope+ ";"+
+              sueldobruto+"\n";
+        try{
+            if(editar==false){
+                MA.GuardarDatos(data,"usuario.txt");
+            }
+            else{
+                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+            }
+        }
+        catch(IOException e){
+            System.out.println("Error E/S: "+e);
+        }
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
 
-    private void id_usuarioComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_id_usuarioComponentAdded
+    private void id_empleadoComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_id_empleadoComponentAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_id_usuarioComponentAdded
+    }//GEN-LAST:event_id_empleadoComponentAdded
 
-    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+    private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailActionPerformed
-    private void nivelAccesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelAccesoActionPerformed
+    }//GEN-LAST:event_direccionActionPerformed
+    private void sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nivelAccesoActionPerformed
+    }//GEN-LAST:event_sexoActionPerformed
 
-    private void nivelAcceso1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelAcceso1ActionPerformed
+    private void coopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nivelAcceso1ActionPerformed
+    }//GEN-LAST:event_coopActionPerformed
 
-    private void loginname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginname1ActionPerformed
+    private void idpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idpuestoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_loginname1ActionPerformed
+    }//GEN-LAST:event_idpuestoActionPerformed
 
-    private void loginname2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginname2ActionPerformed
+    private void sueldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sueldoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_loginname2ActionPerformed
+    }//GEN-LAST:event_sueldoActionPerformed
+
+    private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
+        nombre.setText("");
+        apellidop.setText("");
+        apellidom.setText("");
+        direccion.setText("");
+        sexo.setSelectedIndex(0);
+        iddepartamento.setText("");
+        idpuesto.setText("");
+        coop.setSelectedIndex(0);
+        sueldo.setText("");
+        Status.setText("Empleado");
+    }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Status;
-    private javax.swing.JTextField apellido;
-    private javax.swing.JTextField apellido1;
-    private javax.swing.JTextField email;
-    private javax.swing.JTextField id_usuario;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField apellidom;
+    private javax.swing.JTextField apellidop;
+    private javax.swing.JComboBox<String> coop;
+    private javax.swing.JTextField direccion;
+    private javax.swing.JTextField id_empleado;
+    private javax.swing.JTextField iddepartamento;
+    private javax.swing.JTextField idpuesto;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JButton jButtonLimpiar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -274,11 +411,8 @@ public class EmpleadoMant extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField loginname;
-    private javax.swing.JTextField loginname1;
-    private javax.swing.JTextField loginname2;
-    private javax.swing.JComboBox<String> nivelAcceso;
-    private javax.swing.JComboBox<String> nivelAcceso1;
     private javax.swing.JTextField nombre;
+    private javax.swing.JComboBox<String> sexo;
+    private javax.swing.JTextField sueldo;
     // End of variables declaration//GEN-END:variables
 }

@@ -80,12 +80,12 @@ IOException{
         return(ArrayListArchivo);  
     }
  
-    public void ModificaDatos(String codigo,String data, String Archivon,String Archivov){ 
+    public void ModificaDatos(String codigo,String datavieja, String datanueva, String Archivon,String Archivov){ 
         boolean encontrado=false; 
         File fNuevo= new File(Archivon); 
         File fAntiguo= new File(Archivov); 
-        String aCadena=data; 
-        String nCadena=data; 
+        String aCadena=datavieja; 
+        String nCadena=datanueva; 
         int cod=Integer.parseInt(codigo); 
         try { 
             if(fAntiguo.exists()) { 
@@ -105,14 +105,16 @@ IOException{
 
                 }
                 s.close(); 
-                String nAntiguo = fAntiguo.getName(); 
-                borrar(fAntiguo); 
-                fNuevo.renameTo(fAntiguo); 
+                String nAntiguo = fAntiguo.getName();   
+                borrar(fAntiguo);
+                fNuevo.renameTo(fAntiguo);      
+                      
             } 
             else { 
                 System.out.println("Fichero no Existe"); 
             } 
-        }catch(Exception e) { 
+        }
+        catch(Exception e) { 
             System.out.println(e); 
         } 
  
@@ -134,9 +136,10 @@ IOException{
         try{  
             if(Ffichero.exists()){ 
                 Ffichero.delete(); 
-                System.out.println("Ficherro Borrado"); 
+                System.out.println("Fichero Borrado"); 
             } 
         }catch(Exception e){ 
+            System.out.println("Fichero no fue Borrado"); 
             System.out.println(e); 
         } 
     }

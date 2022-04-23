@@ -24,7 +24,8 @@ public class Register extends javax.swing.JPanel {
      */
     public Register() {
         initComponents();
-        id_usuario.addActionListener(new ActionListener(){
+        ActionListener listener;
+        listener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer id;
@@ -32,63 +33,62 @@ public class Register extends javax.swing.JPanel {
                 id=Integer.parseInt(id_usuario.getText());
                 Scanner s;
                 try{
-                 File f = new File("usuario.txt");
-                 s = new Scanner(f);
-                 System.out.print(s);
-                 if(!f.exists()){
-                    f.createNewFile();
-                 }else{
-                     while (s.hasNextLine() && !encontrado){
-                         String linea = s.nextLine();
-                         Scanner sl = new Scanner(linea);
-                         sl.useDelimiter("\\s*;\\s*");
-                         System.out.print("hola");
-                         try{
-                             if(id==Integer.parseInt(sl.next())){
-                                 nombre.setText(sl.next());
-                                 apellido.setText(sl.next());
-                                 email.setText(sl.next());
-                                 loginname.setText(sl.next());
-                                 nivelAcceso.setSelectedIndex(sl.nextByte());
-                                 password.setText(sl.next());
-                                 encontrado=true;
-                                 editar= true;
-                                 antigualinea=(id_usuario.getText() +";"+ nombre.getText()
-                                 +";"+apellido.getText()+";"+email.getText()+";"+loginname.getText()
-                                 +";"+nivelAcceso.getSelectedIndex()+";"+password.getText());
-                                 Status.setText("Modificando Usuario");
-                                 JButtonGuardar.setEnabled(true);
-                             }
-                             else{
-                                 nombre.setText("");
-                                 apellido.setText("");
-                                 email.setText("");
-                                 loginname.setText("");
-                                 nivelAcceso.setSelectedIndex(0);
-                                 password.setText("");
-                                 encontrado=false;
-                                 editar = false;
-                                 Status.setText("Creando Usuario");
-                                 JButtonGuardar.setEnabled(true);
-                             }
-                         }
-                         catch(Exception error){
-                            JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
-                            error.printStackTrace();
-                         }
+                    File f = new File("usuario.txt");
+                    s = new Scanner(f);
+                    System.out.print(s);
+                    if(!f.exists()){
+                        f.createNewFile();
+                    }else{
+                        while (s.hasNextLine() && !encontrado){
+                            String linea = s.nextLine();
+                            Scanner sl = new Scanner(linea);
+                            sl.useDelimiter("\\s*;\\s*");
+                            try{
+                                if(id==Integer.parseInt(sl.next())){
+                                    nombre.setText(sl.next());
+                                    apellido.setText(sl.next());
+                                    email.setText(sl.next());
+                                    loginname.setText(sl.next());
+                                    nivelAcceso.setSelectedIndex(sl.nextByte());
+                                    password.setText(sl.next());
+                                    encontrado=true;
+                                    editar= true;
+                                    antigualinea=(id_usuario.getText() +";"+ nombre.getText()
+                                            +";"+apellido.getText()+";"+email.getText()+";"+loginname.getText()
+                                            +";"+nivelAcceso.getSelectedIndex()+";"+password.getText());
+                                    Status.setText("Modificando Usuario");
+                                    JButtonGuardar.setEnabled(true);
+                                }
+                                else{
+                                    nombre.setText("");
+                                    apellido.setText("");
+                                    email.setText("");
+                                    loginname.setText("");
+                                    nivelAcceso.setSelectedIndex(0);
+                                    password.setText("");
+                                    encontrado=false;
+                                    editar = false;
+                                    Status.setText("Creando Usuario");
+                                    JButtonGuardar.setEnabled(true);
+                                }
+                            }
+                            catch(Exception error){
+                                JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                                error.printStackTrace();
+                            }
+                        }
                     }
-                 }
-                 s.close();
+                    s.close();
                 }
                 catch(FileNotFoundException error){
-                        JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
-                        error.printStackTrace();
+                    JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                    error.printStackTrace();
                 } catch (IOException ex) {
-                   ex.printStackTrace();
+                    ex.printStackTrace();
                 }
             }
-        
-        });
+        };
+        id_usuario.addActionListener(listener);
         
     }
 
@@ -117,8 +117,11 @@ public class Register extends javax.swing.JPanel {
         JButtonGuardar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         id_usuario = new javax.swing.JTextField();
-        Status = new javax.swing.JTextField();
         jButtonLimpiar = new javax.swing.JButton();
+        Status = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(204, 255, 255));
+        setMinimumSize(new java.awt.Dimension(660, 540));
 
         password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,12 +150,17 @@ public class Register extends javax.swing.JPanel {
             }
         });
 
+        nivelAcceso.setBackground(new java.awt.Color(102, 204, 255));
         nivelAcceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "normal" }));
+        nivelAcceso.setBorder(null);
 
         jLabel6.setText("contraseña");
 
+        JButtonGuardar.setBackground(new java.awt.Color(153, 255, 153));
+        JButtonGuardar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         JButtonGuardar.setText("Guardar");
         JButtonGuardar.setToolTipText("");
+        JButtonGuardar.setBorder(null);
         JButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JButtonGuardarActionPerformed(evt);
@@ -166,31 +174,31 @@ public class Register extends javax.swing.JPanel {
                 id_usuarioComponentAdded(evt);
             }
         });
-
-        Status.setText("usuario");
-        Status.addActionListener(new java.awt.event.ActionListener() {
+        id_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatusActionPerformed(evt);
+                id_usuarioActionPerformed(evt);
             }
         });
 
+        jButtonLimpiar.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLimpiar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonLimpiar.setText("limpiar");
+        jButtonLimpiar.setBorder(null);
         jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLimpiarActionPerformed(evt);
             }
         });
 
+        Status.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        Status.setText("Usuario");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -199,42 +207,46 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(loginname, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(apellido, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(password, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLimpiar)
-                    .addComponent(JButtonGuardar))
-                .addGap(33, 33, 33))
+                    .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nivelAcceso, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(JButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(193, 193, 193)
+                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addComponent(Status)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -246,16 +258,15 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(loginname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(loginname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonLimpiar)
-                        .addGap(29, 29, 29)))
-                .addComponent(JButtonGuardar)
-                .addGap(23, 23, 23))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(JButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,15 +283,21 @@ public class Register extends javax.swing.JPanel {
         String loginUsuario = loginname.getText();
         int nivelUsuario = nivelAcceso.getSelectedIndex();
         String passwordUsuario = password.getText();
-        String data  = Id + ";"+ nombreUsuario + ";"+ apellidoUsuario+ ";"+ emailUsuario+
-                ";"+ loginUsuario+ ";"+ nivelUsuario+ ";"+ passwordUsuario+"\n";
+        
         try{
             if(editar==false){
+                String data  = Id + ";"+ nombreUsuario + ";"+ apellidoUsuario+ ";"+ emailUsuario+
+                ";"+ loginUsuario+ ";"+ nivelUsuario+ ";"+ passwordUsuario+"\n";
                 MA.GuardarDatos(data,"usuario.txt");
             }
             else{
-                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+                String data  = Id + ";"+ nombreUsuario + ";"+ apellidoUsuario+ ";"+ emailUsuario+
+                ";"+ loginUsuario+ ";"+ nivelUsuario+ ";"+ passwordUsuario;
+                MA.ModificaDatos(Id,antigualinea, data,"usuario1.txt","usuario.txt");
             }
+            
+            JOptionPane.showMessageDialog(null,"accion realizada correctamente");
+            jButtonLimpiarActionPerformed(evt);
         }
         catch(IOException e){
             System.out.println("Error E/S: "+e);
@@ -299,10 +316,6 @@ public class Register extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_usuarioComponentAdded
 
-    private void StatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StatusActionPerformed
-
     private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
         id_usuario.setText("");
         nombre.setText("");
@@ -314,10 +327,14 @@ public class Register extends javax.swing.JPanel {
         Status.setText("Usuario");
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
+    private void id_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_id_usuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JButtonGuardar;
-    private javax.swing.JTextField Status;
+    private javax.swing.JLabel Status;
     private javax.swing.JTextField apellido;
     private javax.swing.JTextField email;
     private javax.swing.JTextField id_usuario;

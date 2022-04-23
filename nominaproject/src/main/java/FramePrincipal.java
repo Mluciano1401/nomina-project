@@ -16,8 +16,14 @@ public class FramePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FramePrincipal
      */
+    String userName = "";
     public FramePrincipal() {
         initComponents();
+    }
+    public FramePrincipal(String name) {
+        initComponents();
+        this.userName = name;
+        welcome.setText("Bienvenido "+ this.userName);
     }
 
     /**
@@ -30,6 +36,8 @@ public class FramePrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         content = new javax.swing.JPanel();
+        welcome = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -47,16 +55,14 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
-        content.setLayout(contentLayout);
-        contentLayout.setHorizontalGroup(
-            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
-        );
-        contentLayout.setVerticalGroup(
-            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
-        );
+        content.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        welcome.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        welcome.setText("Bienvenido");
+        content.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\María Luciano\\nomina-project\\nominaproject\\src\\main\\java\\assets\\4.jpg")); // NOI18N
+        content.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 540));
 
         jMenu1.setText("mantenimientos");
 
@@ -126,11 +132,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
         );
 
         pack();
@@ -138,7 +144,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         Register register = new Register();
-        register.setSize(625, 498);
+        register.setSize(660, 540);
         register.setLocation(0,0);
         content.removeAll();
         content.add(register, BorderLayout.CENTER);
@@ -148,7 +154,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         DepartMant dep = new DepartMant ();
-        dep.setSize(625, 498);
+        dep.setSize(660, 540);
         dep.setLocation(0,0);
         content.removeAll();
         content.add(dep, BorderLayout.CENTER);
@@ -158,7 +164,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         PuestoMant puesto = new PuestoMant ();
-        puesto.setSize(625, 498);
+        puesto.setSize(660, 540);
         puesto.setLocation(0,0);
         content.removeAll();
         content.add(puesto, BorderLayout.CENTER);
@@ -168,7 +174,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         EmpleadoMant emp = new EmpleadoMant ();
-        emp.setSize(625, 498);
+        emp.setSize(660, 540);
         emp.setLocation(0,0);
         content.removeAll();
         content.add(emp, BorderLayout.CENTER);
@@ -213,6 +219,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel content;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
@@ -227,5 +234,6 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JLabel welcome;
     // End of variables declaration//GEN-END:variables
 }

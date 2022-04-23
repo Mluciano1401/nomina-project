@@ -34,7 +34,7 @@ public class PuestoMant extends javax.swing.JPanel {
                 id=Integer.parseInt(id_puesto.getText());
                 Scanner s;
                 try{
-                 File f = new File("usuario.txt");
+                 File f = new File("puesto.txt");
                  s = new Scanner(f);
                  System.out.print(s);
                  if(!f.exists()){
@@ -51,13 +51,13 @@ public class PuestoMant extends javax.swing.JPanel {
                                  encontrado=true;
                                  editar= true;
                                  antigualinea=(id_puesto.getText() +";"+ nombre.getText());
-                                 Status.setText("Modificando Usuario");
+                                 Status.setText("Modificando Puesto");
                                  jButton1.setEnabled(true);
                              }
                              else{
                                  nombre.setText("");
                                  editar = false;
-                                 Status.setText("Creando Usuario");
+                                 Status.setText("Creando Puesto");
                                  jButton1.setEnabled(true);
                              }
                          }
@@ -98,8 +98,13 @@ public class PuestoMant extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButtonLimpiar1 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 255, 255));
+        setMinimumSize(new java.awt.Dimension(660, 540));
+        setPreferredSize(new java.awt.Dimension(668, 529));
+
         jLabel2.setText("nombre ");
 
+        Status.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Status.setText("Puesto");
 
         jLabel8.setText("id");
@@ -121,15 +126,21 @@ public class PuestoMant extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(153, 255, 153));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.setToolTipText("");
+        jButton1.setBorder(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButtonLimpiar1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLimpiar1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonLimpiar1.setText("limpiar");
+        jButtonLimpiar1.setBorder(null);
         jButtonLimpiar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLimpiar1ActionPerformed(evt);
@@ -141,47 +152,47 @@ public class PuestoMant extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(217, 217, 217)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(id_puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61))
+                .addContainerGap(210, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(159, 159, 159))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(55, 55, 55))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(200, Short.MAX_VALUE)
                 .addComponent(Status)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(id_puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(86, 86, 86)
-                .addComponent(jButtonLimpiar1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(22, 22, 22))
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)))
+                .addGap(63, 63, 63)
+                .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,36 +208,37 @@ public class PuestoMant extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_puestoComponentAdded
 
+    private void jButtonLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiar1ActionPerformed
+        id_puesto.setText("");
+        nombre.setText("");
+        Status.setText("Puestos");
+    }//GEN-LAST:event_jButtonLimpiar1ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ManejadorArchivos MA = new ManejadorArchivos();
         String Id = id_puesto.getText();
         String nombrep = nombre.getText();
-        String data  = Id + ";"+ nombrep+"\n";
         try{
-            if(editar==false){
-                MA.GuardarDatos(data,"usuario.txt");
+            if(editar==false){                
+                String data  = Id + ";"+ nombrep+"\n";
+                MA.GuardarDatos(data,"puesto.txt");
             }
-            else{
-                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+            else{                
+                String data  = Id + ";"+ nombrep;
+                MA.ModificaDatos(Id,antigualinea, data,"puesto1.txt","puesto.txt");
             }
+            jButtonLimpiar1ActionPerformed(evt);
         }
         catch(IOException e){
             System.out.println("Error E/S: "+e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButtonLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiar1ActionPerformed
-        id_puesto.setText("");
-        nombre.setText("");
-        Status.setText("Puesto");
-    }//GEN-LAST:event_jButtonLimpiar1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Status;
     private javax.swing.JTextField id_puesto;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonLimpiar;
     private javax.swing.JButton jButtonLimpiar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;

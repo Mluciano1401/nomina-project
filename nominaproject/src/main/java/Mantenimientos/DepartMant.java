@@ -26,58 +26,54 @@ public class DepartMant extends javax.swing.JPanel {
      */
     public DepartMant() {
         initComponents();
-        id_dep.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Integer id;
-                boolean encontrado=false;
-                id=Integer.parseInt(id_dep.getText());
-                Scanner s;
-                try{
-                 File f = new File("usuario.txt");
-                 s = new Scanner(f);
-                 System.out.print(s);
-                 if(!f.exists()){
+        id_dep.addActionListener((ActionEvent e) -> {
+            Integer id;
+            boolean encontrado=false;
+            id=Integer.parseInt(id_dep.getText());
+            Scanner s;
+            try{
+                File f = new File("departamento.txt");
+                s = new Scanner(f);
+                System.out.print(s);
+                if(!f.exists()){
                     f.createNewFile();
-                 }else{
-                     while (s.hasNextLine() && !encontrado){
-                         String linea = s.nextLine();
-                         Scanner sl = new Scanner(linea);
-                         sl.useDelimiter("\\s*;\\s*");
-                         System.out.print("hola");
-                         try{
-                             if(id==Integer.parseInt(sl.next())){
-                                 nombre.setText(sl.next());
-                                 encontrado=true;
-                                 editar= true;
-                                 antigualinea=(id_dep.getText() +";"+ nombre.getText());
-                                 Status.setText("Modificando Usuario");
-                                 jButton1.setEnabled(true);
-                             }
-                             else{
-                                 nombre.setText("");
-                                 editar = false;
-                                 Status.setText("Creando Usuario");
-                                 jButton1.setEnabled(true);
-                             }
-                         }
-                         catch(Exception error){
+                }else{
+                    while (s.hasNextLine() && !encontrado){
+                        String linea = s.nextLine();
+                        Scanner sl = new Scanner(linea);
+                        sl.useDelimiter("\\s*;\\s*");
+                        System.out.print("hola");
+                        try{
+                            if(id==Integer.parseInt(sl.next())){
+                                nombre.setText(sl.next());
+                                encontrado=true;
+                                editar= true;
+                                antigualinea=(id_dep.getText() +";"+ nombre.getText());
+                                Status.setText("Modificando Departamento");
+                                jButton1.setEnabled(true);
+                            }
+                            else{
+                                nombre.setText("");
+                                editar = false;
+                                Status.setText("Creando  Departamento");
+                                jButton1.setEnabled(true);
+                            }
+                        }
+                        catch(Exception error){
                             JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
                             error.printStackTrace();
-                         }
+                        }
                     }
-                 }
-                 s.close();
                 }
-                catch(FileNotFoundException error){
-                        JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
-                        error.printStackTrace();
-                } 
-                catch (IOException ex) {
-                   ex.printStackTrace();
-                }
+                s.close();
             }
-            
+            catch(FileNotFoundException error){            
+                JOptionPane.showMessageDialog(null,"Error al leer Archivo " + error);
+                error.printStackTrace();
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 
@@ -97,9 +93,15 @@ public class DepartMant extends javax.swing.JPanel {
         id_dep = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButtonLimpiar1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(204, 255, 255));
+        setMinimumSize(new java.awt.Dimension(660, 540));
+        setPreferredSize(new java.awt.Dimension(668, 529));
 
         jLabel2.setText("nombre ");
 
+        Status.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Status.setText("Departamento");
 
         jLabel8.setText("id");
@@ -121,67 +123,82 @@ public class DepartMant extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(153, 255, 153));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.setToolTipText("");
+        jButton1.setBorder(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButtonLimpiar1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLimpiar1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonLimpiar1.setText("limpiar");
+        jButtonLimpiar1.setBorder(null);
         jButtonLimpiar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLimpiar1ActionPerformed(evt);
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(204, 255, 255));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(id_dep, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(21, 21, 21))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel2))
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(id_dep, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(55, 55, 55))))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(143, 143, 143))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonLimpiar1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+                .addGap(158, 158, 158)
                 .addComponent(Status)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(id_dep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(86, 86, 86)
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)))
+                .addGap(35, 35, 35)
                 .addComponent(jButtonLimpiar1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(22, 22, 22))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(158, 158, 158))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -201,14 +218,16 @@ public class DepartMant extends javax.swing.JPanel {
         ManejadorArchivos MA = new ManejadorArchivos();
         String Id = id_dep.getText();
         String nombred = nombre.getText();
-        String data  = Id + ";"+ nombred+"\n";
         try{
             if(editar==false){
-                MA.GuardarDatos(data,"usuario.txt");
+                String data  = Id + ";"+ nombred+"\n";
+                MA.GuardarDatos(data,"departamento.txt");
             }
             else{
-                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+                String data  = Id + ";"+ nombred;
+                MA.ModificaDatos(Id,antigualinea, data,"departamento1.txt","departamento.txt");
             }
+            jButtonLimpiar1ActionPerformed(evt);
         }
         catch(IOException e){
             System.out.println("Error E/S: "+e);
@@ -218,7 +237,7 @@ public class DepartMant extends javax.swing.JPanel {
     private void jButtonLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiar1ActionPerformed
         id_dep.setText("");
         nombre.setText("");
-        Status.setText("Puesto");
+        Status.setText("Departamento");
     }//GEN-LAST:event_jButtonLimpiar1ActionPerformed
 
 
@@ -227,6 +246,7 @@ public class DepartMant extends javax.swing.JPanel {
     private javax.swing.JTextField id_dep;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonLimpiar1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nombre;

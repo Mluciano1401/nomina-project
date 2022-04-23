@@ -26,6 +26,29 @@ public class EmpleadoMant extends javax.swing.JPanel {
      */
     public EmpleadoMant() {
         initComponents();
+        File puestos = new File("puesto.txt");
+        File departamentos = new File("departamento.txt");
+        try{
+            Scanner leer1 = new Scanner(departamentos);            
+            Scanner leer2 = new Scanner(puestos);
+            while (leer1.hasNextLine()){
+                String linea = leer1.nextLine();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                iddepartamento.addItem(sl.next());
+            }
+            while (leer2.hasNextLine()){
+                String linea = leer2.nextLine();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                idpuesto.addItem(sl.next());
+            }
+        }
+        catch(Exception error){
+            JOptionPane.showMessageDialog(null,"Error al traer datos " + error);
+            error.printStackTrace();
+         }
+        
         id_empleado.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,7 +59,6 @@ public class EmpleadoMant extends javax.swing.JPanel {
                 try{
                     File f = new File("empleado.txt");
                     s = new Scanner(f);
-                    System.out.print(s);
                     if(!f.exists()){
                         f.createNewFile();
                     }
@@ -45,7 +67,6 @@ public class EmpleadoMant extends javax.swing.JPanel {
                          String linea = s.nextLine();
                          Scanner sl = new Scanner(linea);
                          sl.useDelimiter("\\s*;\\s*");
-                         System.out.print("hola");
                          try{
                              if(cod==Integer.parseInt(sl.next())){
                                  nombre.setText(sl.next());
@@ -53,16 +74,16 @@ public class EmpleadoMant extends javax.swing.JPanel {
                                  apellidom.setText(sl.next());
                                  direccion.setText(sl.next());
                                  sexo.setSelectedIndex(sl.nextByte());                                 
-                                 iddepartamento.setText(sl.next());
-                                 idpuesto.setText(sl.next());
+                                 iddepartamento.setSelectedIndex(sl.nextByte());
+                                 idpuesto.setSelectedIndex(sl.nextByte());
                                  coop.setSelectedIndex(sl.nextByte());
                                  sueldo.setText(sl.next());
                                  encontrado=true;
                                  editar= true;
                                  antigualinea=(id_empleado.getText() +";"+ nombre.getText()
                                  +";"+apellidop.getText()+";"+apellidom.getText()+";"+direccion.getText()+";"+
-                                 ";"+sexo.getSelectedIndex()+iddepartamento.getText()
-                                 +idpuesto.getText()
+                                 ";"+sexo.getSelectedIndex()+iddepartamento.getSelectedIndex()
+                                 +idpuesto.getSelectedIndex()
                                  +";"+coop.getSelectedIndex()+";"+sueldo.getText());
                                  Status.setText("Modificando Empleado");
                                  jButtonGuardar.setEnabled(true);
@@ -73,8 +94,8 @@ public class EmpleadoMant extends javax.swing.JPanel {
                                  apellidom.setText("");
                                  direccion.setText("");
                                  sexo.setSelectedIndex(0);
-                                 iddepartamento.setText("");
-                                 idpuesto.setText("");
+                                 iddepartamento.setSelectedIndex(0);
+                                 idpuesto.setSelectedIndex(0);
                                  coop.setSelectedIndex(0);
                                  sueldo.setText("");
                                  encontrado=false;
@@ -115,7 +136,6 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel4 = new javax.swing.JLabel();
         Status = new javax.swing.JLabel();
-        iddepartamento = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
         sexo = new javax.swing.JComboBox<>();
@@ -129,16 +149,22 @@ public class EmpleadoMant extends javax.swing.JPanel {
         id_empleado = new javax.swing.JTextField();
         apellidom = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        idpuesto = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         coop = new javax.swing.JComboBox<>();
         sueldo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jButtonLimpiar = new javax.swing.JButton();
+        iddepartamento = new javax.swing.JComboBox<>();
+        idpuesto = new javax.swing.JComboBox<>();
+
+        setBackground(new java.awt.Color(204, 255, 255));
+        setMinimumSize(new java.awt.Dimension(660, 540));
+        setPreferredSize(new java.awt.Dimension(668, 529));
 
         jLabel4.setText("Sexo");
 
+        Status.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Status.setText("Empleado");
 
         jLabel5.setText("Dirección");
@@ -169,8 +195,11 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel2.setText("nombre ");
 
+        jButtonGuardar.setBackground(new java.awt.Color(153, 255, 153));
+        jButtonGuardar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.setToolTipText("");
+        jButtonGuardar.setBorder(null);
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGuardarActionPerformed(evt);
@@ -191,17 +220,11 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel6.setText("apellido materno");
 
-        idpuesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idpuestoActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("Id puesto");
 
         jLabel10.setText("Cooperativa");
 
-        coop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "si", "no" }));
+        coop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "no", "si" }));
         coop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 coopActionPerformed(evt);
@@ -216,7 +239,10 @@ public class EmpleadoMant extends javax.swing.JPanel {
 
         jLabel11.setText("Sueldo");
 
+        jButtonLimpiar.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLimpiar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonLimpiar.setText("limpiar");
+        jButtonLimpiar.setBorder(null);
         jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLimpiarActionPerformed(evt);
@@ -228,66 +254,71 @@ public class EmpleadoMant extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(82, Short.MAX_VALUE)
+                .addContainerGap(192, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iddepartamento)
-                        .addComponent(direccion)
-                        .addComponent(apellidop)
-                        .addComponent(nombre)
-                        .addComponent(id_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(apellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(coop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLimpiar)
-                    .addComponent(jButtonGuardar))
-                .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(direccion)
+                                        .addComponent(apellidop)
+                                        .addComponent(nombre)
+                                        .addComponent(id_empleado)
+                                        .addComponent(apellidom)
+                                        .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(coop, javax.swing.GroupLayout.Alignment.LEADING, 0, 83, Short.MAX_VALUE)
+                                        .addComponent(idpuesto, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(iddepartamento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(61, 61, 61))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(73, 73, 73))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
                 .addComponent(Status)
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(id_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(apellidop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(apellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellidop, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apellidom, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,7 +330,7 @@ public class EmpleadoMant extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(idpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(coop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,13 +338,12 @@ public class EmpleadoMant extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonLimpiar))
-                .addContainerGap(77, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonLimpiar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonGuardar)
-                .addGap(27, 27, 27))
+                .addGap(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -333,20 +363,24 @@ public class EmpleadoMant extends javax.swing.JPanel {
       String apellidoM = apellidom.getText();
       String direc = direccion.getText();
       int sex = sexo.getSelectedIndex();
-      String iddep = iddepartamento.getText();
-      String idp = idpuesto.getText();
+      int iddep = iddepartamento.getSelectedIndex();
+      int idp = idpuesto.getSelectedIndex();
       int coope = coop.getSelectedIndex();
       String sueldobruto = sueldo.getText();
-      String data  = Id + ";"+ nombreEmpleado + ";"+apellidoP+ ";"+ apellidoM+
-                ";"+  direc+ ";"+ sex+ ";"+ iddep+";"+  idp+ ";"+ coope+ ";"+
-              sueldobruto+"\n";
         try{
             if(editar==false){
-                MA.GuardarDatos(data,"usuario.txt");
+                String data  = Id + ";"+ nombreEmpleado + ";"+apellidoP+ ";"+ apellidoM+
+                ";"+  direc+ ";"+ sex+ ";"+ iddep+";"+  idp+ ";"+ coope+ ";"+
+                sueldobruto+"\n";
+                MA.GuardarDatos(data,"empleado.txt");
             }
             else{
-                MA.ModificaDatos(Id, data,"usuario.txt","usuario.txt");
+                String data  = Id + ";"+ nombreEmpleado + ";"+apellidoP+ ";"+ apellidoM+
+                ";"+  direc+ ";"+ sex+ ";"+ iddep+";"+  idp+ ";"+ coope+ ";"+
+                sueldobruto;
+                MA.ModificaDatos(Id,antigualinea, data,"empleado1.txt","empleado.txt");
             }
+            jButtonLimpiarActionPerformed(evt);
         }
         catch(IOException e){
             System.out.println("Error E/S: "+e);
@@ -365,25 +399,26 @@ public class EmpleadoMant extends javax.swing.JPanel {
     }//GEN-LAST:event_sexoActionPerformed
 
     private void coopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopActionPerformed
-        // TODO add your handling code here:
+       int cooperativa = coop.getSelectedIndex();
+       if(cooperativa == 1){
+           Cooperativa cooplayout = new Cooperativa();
+           JOptionPane.showMessageDialog(null,cooplayout);
+       }
     }//GEN-LAST:event_coopActionPerformed
-
-    private void idpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idpuestoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idpuestoActionPerformed
 
     private void sueldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sueldoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sueldoActionPerformed
 
     private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
+        id_empleado.setText("");
         nombre.setText("");
         apellidop.setText("");
         apellidom.setText("");
         direccion.setText("");
         sexo.setSelectedIndex(0);
-        iddepartamento.setText("");
-        idpuesto.setText("");
+        iddepartamento.setSelectedIndex(0);
+        idpuesto.setSelectedIndex(0);
         coop.setSelectedIndex(0);
         sueldo.setText("");
         Status.setText("Empleado");
@@ -397,8 +432,8 @@ public class EmpleadoMant extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> coop;
     private javax.swing.JTextField direccion;
     private javax.swing.JTextField id_empleado;
-    private javax.swing.JTextField iddepartamento;
-    private javax.swing.JTextField idpuesto;
+    private javax.swing.JComboBox<String> iddepartamento;
+    private javax.swing.JComboBox<String> idpuesto;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonLimpiar;
     private javax.swing.JLabel jLabel10;

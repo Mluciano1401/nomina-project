@@ -1,0 +1,5 @@
+01;juan;cepedez;juancito64@gmail.com;juancito64;0;12345678
+02;luis;cepedez;lc@gmail.com;lc09;1;12345678
+03;jose;vargas;jv@gmail.com;jv;1;12345678
+04;marcos antonio;lopez;mal@gmail.com;mal09;0;12345678
+05;bryan;valera;brv18@gmail.com;brv18;0;123456
